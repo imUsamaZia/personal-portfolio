@@ -87,7 +87,7 @@ const index = () => {
         setPopup(prev => ({ ...prev, isVisible: false }));
         if (popup.type === 'success') {
             setTimeout(() => {
-                route.push('/login-form');
+                route.push('/');
             }, 300);
         }
     };
@@ -253,14 +253,14 @@ const index = () => {
                 <div className="text-center mt-6">
                     <p className="text-gray-400 mb-4">
                         Already have an account? 
-                        <Link href="/login-form" className="text-purple-400 hover:text-purple-300 ml-1 transition-colors duration-300">
+                        <Link href="/" className="text-purple-400 hover:text-purple-300 ml-1 transition-colors duration-300">
                             Sign in here
                         </Link>
                     </p>
                     
                     {/* Login Button */}
                     <Link 
-                        href="/login-form" 
+                        href="/" 
                         className="group inline-flex items-center px-6 py-2 border-2 border-purple-400 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:bg-purple-400 hover:text-black"
                     >
                         <LogIn className="mr-2 w-4 h-4" />

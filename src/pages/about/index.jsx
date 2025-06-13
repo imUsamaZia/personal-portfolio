@@ -28,10 +28,10 @@ import {
   Users,
   Clock
 } from 'lucide-react';
-
+import useVisibilityStore from "../stores/visibilityStore";
+import Header from "@/components/layout/Header";
 const index = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const {isVisible, setIsVisible,mousePosition, setMousePosition} = useVisibilityStore()
   const [activeTimeline, setActiveTimeline] = useState(0);
   const [currentQuote, setCurrentQuote] = useState(0);
   const [skillProgress, setSkillProgress] = useState({});
@@ -158,28 +158,7 @@ const index = () => {
       ></div>
 
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-40 transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
-        <div className="backdrop-blur-md bg-black/20 border-b border-white/10">
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex justify-between items-center">
-              <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                About Me
-              </div>
-              <div className="hidden md:flex space-x-8">
-                {['Home', 'About', 'Projects', 'Skills', 'Contact'].map((item, index) => (
-                  <a 
-                    key={item} 
-                    href={`#${item.toLowerCase()}`}
-                    className={`hover:text-purple-400 transition-all duration-300 transform hover:scale-110 ${item === 'About' ? 'text-purple-400' : ''}`}
-                  >
-                    {item}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Header/>
 
       {/* Hero Section with Animated Quote */}
       <section className="min-h-screen flex items-center justify-center relative px-6 pt-20">
@@ -420,30 +399,7 @@ const index = () => {
         </div>
       </section>
 
-      <style jsx>{`
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        
-        .animate-fade-in {
-          animation: fadeIn 0.6s ease-out forwards;
-        }
-        
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
+    
     </div>
   );
 }

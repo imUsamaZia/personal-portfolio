@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Code, Palette, Database, Globe, Zap, Star, TrendingUp, Award, BookOpen, Monitor, Smartphone, Server, Cloud, GitBranch, Layers } from 'lucide-react';
+import useVisibilityStore from '../stores/visibilityStore';
+import Header from '@/components/layout/Header';
 
-export default function SkillsPage() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+export default function index() {
   const [activeSkill, setActiveSkill] = useState(null);
+  const {isVisible, setIsVisible,mousePosition, setMousePosition} = useVisibilityStore()
 
   const skillCategories = [
     {
@@ -108,29 +109,7 @@ export default function SkillsPage() {
       ></div>
 
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-40 transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
-        <div className="backdrop-blur-md bg-black/20 border-b border-white/10">
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex justify-between items-center">
-              <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Portfolio
-              </div>
-              <div className="hidden md:flex space-x-8">
-                {['Home', 'About', 'Projects', 'Skills', 'Contact'].map((item, index) => (
-                  <a 
-                    key={item} 
-                    href={`#${item.toLowerCase()}`}
-                    className={`hover:text-purple-400 transition-all duration-300 transform hover:scale-110 ${item === 'Skills' ? 'text-purple-400' : ''} ${isVisible ? 'animate-fade-in' : ''}`}
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    {item}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Header/>
 
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center relative mt-[5rem] px-6">
@@ -339,45 +318,7 @@ export default function SkillsPage() {
         </div>
       </footer>
 
-      <style jsx>{`
-        @keyframes gradient-x {
-          0%, 100% {
-            background-size: 200% 200%;
-            background-position: left center;
-          }
-          50% {
-            background-size: 200% 200%;
-            background-position: right center;
-          }
-        }
-        
-        .animate-gradient-x {
-          animation: gradient-x 3s ease infinite;
-        }
-        
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        
-        .animate-fade-in {
-          animation: fadeIn 0.6s ease-out forwards;
-        }
-        
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
+     
     </div>
   );
 }
