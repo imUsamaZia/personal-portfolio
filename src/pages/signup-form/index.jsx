@@ -2,298 +2,371 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import { Mail, Lock, Eye, EyeOff, UserPlus, ArrowRight, LogIn, CheckCircle, X, AlertCircle } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  UserPlus,
+  ArrowRight,
+  LogIn,
+  CheckCircle,
+  X,
+  AlertCircle,
+} from "lucide-react";
 
 // Custom Popup Component
 const CustomPopup = ({ isVisible, type, title, message, onClose }) => {
-    if (!isVisible) return null;
+  if (!isVisible) return null;
 
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            <div className={`relative bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 max-w-md mx-4 transform transition-all duration-300 ${
-                isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
-            }`}>
-                {/* Close Button */}
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-300"
-                >
-                    <X className="w-5 h-5" />
-                </button>
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <div
+        className={`relative bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 max-w-md mx-4 transform transition-all duration-300 ${
+          isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
+        }`}
+      >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-300"
+        >
+          <X className="w-5 h-5" />
+        </button>
 
-                {/* Icon */}
-                <div className="text-center mb-4">
-                    {type === 'success' ? (
-                        <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-                    ) : (
-                        <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
-                    )}
-                </div>
-
-                {/* Content */}
-                <div className="text-center">
-                    <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-                    <p className="text-gray-300 mb-6">{message}</p>
-                    
-                    <button
-                        onClick={onClose}
-                        className="group relative px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
-                    >
-                        <span className="relative z-10">Got it!</span>
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </button>
-                </div>
-            </div>
+        {/* Icon */}
+        <div className="text-center mb-4">
+          {type === "success" ? (
+            <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
+          ) : (
+            <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
+          )}
         </div>
-    );
+
+        {/* Content */}
+        <div className="text-center">
+          <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
+          <p className="text-gray-300 mb-6">{message}</p>
+
+          <button
+            onClick={onClose}
+            className="group relative px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
+          >
+            <span className="relative z-10">Got it!</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const index = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const [popup, setPopup] = useState({
-        isVisible: false,
-        type: 'success',
-        title: '',
-        message: ''
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const [popup, setPopup] = useState({
+    isVisible: false,
+    type: "success",
+    title: "",
+    message: "",
+  });
+  const route = useRouter();
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  const showPopup = (type, title, message) => {
+    setPopup({
+      isVisible: true,
+      type,
+      title,
+      message,
     });
-    const route = useRouter();
+  };
 
-    useEffect(() => {
-        setIsVisible(true);
-    }, []);
+  const closePopup = () => {
+    setPopup((prev) => ({ ...prev, isVisible: false }));
+    if (popup.type === "success") {
+      setTimeout(() => {
+        route.push("/");
+      }, 300);
+    }
+  };
 
-    useEffect(() => {
-        const handleMouseMove = (e) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
-        };
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
-
-    const showPopup = (type, title, message) => {
-        setPopup({
-            isVisible: true,
-            type,
-            title,
-            message
-        });
-    };
-
-    const closePopup = () => {
-        setPopup(prev => ({ ...prev, isVisible: false }));
-        if (popup.type === 'success') {
-            setTimeout(() => {
-                route.push('/');
-            }, 300);
+  const signupHandle = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "/api/signup",
+        { email, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-    };
+      );
 
-    const signupHandle = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await axios.post(
-                "/api/signup",
-                { email, password },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+      // Show success popup instead of alert
+      showPopup(
+        "success",
+        "Account Created Successfully! 🎉",
+        "Welcome aboard! Your account has been created successfully. You will be redirected to the login page."
+      );
+      console.log("response", res.data);
+    } catch (error) {
+      // Show error popup instead of alert
+      showPopup(
+        "error",
+        "Signup Failed",
+        error.response?.data?.message ||
+          "There was an error creating your account. Please try again."
+      );
+      console.log("error baby", error);
+    }
+  };
 
-            // Show success popup instead of alert
-            showPopup(
-                'success',
-                'Account Created Successfully! 🎉',
-                'Welcome aboard! Your account has been created successfully. You will be redirected to the login page.'
-            );
-            console.log("response", res.data);
-        } catch (error) {
-            // Show error popup instead of alert
-            showPopup(
-                'error',
-                'Signup Failed',
-                error.response?.data?.message || "There was an error creating your account. Please try again."
-            );
-            console.log("error baby", error);
-        }
-    };
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden relative flex items-center justify-center">
+      {/* Custom Popup */}
+      <CustomPopup
+        isVisible={popup.isVisible}
+        type={popup.type}
+        title={popup.title}
+        message={popup.message}
+        onClose={closePopup}
+      />
 
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden relative flex items-center justify-center">
-            {/* Custom Popup */}
-            <CustomPopup
-                isVisible={popup.isVisible}
-                type={popup.type}
-                title={popup.title}
-                message={popup.message}
-                onClose={closePopup}
-            />
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse animation-delay-2000"></div>
+        <div className="absolute top-40 left-40 w-60 h-60 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse animation-delay-4000"></div>
+      </div>
 
-            {/* Animated Background */}
-            <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-                <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse animation-delay-2000"></div>
-                <div className="absolute top-40 left-40 w-60 h-60 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse animation-delay-4000"></div>
+      {/* Floating Cursor Effect */}
+      <div
+        className="fixed w-6 h-6 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full pointer-events-none z-40 transition-all duration-100 ease-out"
+        style={{
+          left: mousePosition.x - 12,
+          top: mousePosition.y - 12,
+          transform: "scale(0.8)",
+          opacity: 0.6,
+        }}
+      ></div>
+
+      {/* Signup Form Container */}
+      <div
+        className={`w-full max-w-md mx-4 py-[2rem] transition-all duration-1500 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
+        }`}
+      >
+        {/* Logo/Brand */}
+        <div className="text-center mb-8">
+          <Link href="/home" className="flex items-center space-x-3 group mb-[2rem]">
+            {/* Profile Picture Container */}
+            <div className="relative">
+              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-purple-400/50 transition-all duration-300 group-hover:border-purple-400 group-hover:scale-110">
+                <img
+                  src="/images/pic2.jpg"
+                  alt="Usama Zia"
+                  className="w-full h-full object-cover transition-all duration-300 group-hover:scale-110"
+                  onLoad={() => setImageLoaded(true)}
+                />
+              </div>
+
+              {/* Animated Ring */}
+              <div className="absolute inset-0 rounded-full border border-purple-400/30 animate-pulse"></div>
+
+              {/* Online Status Indicator */}
+              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-black/50 animate-pulse"></div>
             </div>
 
-            {/* Floating Cursor Effect */}
-            <div 
-                className="fixed w-6 h-6 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full pointer-events-none z-40 transition-all duration-100 ease-out"
-                style={{
-                    left: mousePosition.x - 12,
-                    top: mousePosition.y - 12,
-                    transform: 'scale(0.8)',
-                    opacity: 0.6
-                }}
-            ></div>
-
-            {/* Signup Form Container */}
-            <div className={`w-full max-w-md mx-4 transition-all duration-1500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-                {/* Logo/Brand */}
-                <div className="text-center mb-8">
-                    <div className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
-                        Portfolio
-                    </div>
-                    <h2 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
-                        Create Account
-                    </h2>
-                    <p className="text-gray-400">Join us to showcase your amazing work</p>
-                </div>
-
-                {/* Signup Form */}
-                <form
-                    onSubmit={signupHandle}
-                    className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-2xl"
-                >
-                    {/* Email Input */}
-                    <div className="mb-6">
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
-                            Email Address
-                        </label>
-                        <div className="relative">
-                            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-400" />
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                placeholder="Enter your email"
-                                className="w-full pl-12 pr-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all duration-300 text-white placeholder-gray-400"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Password Input */}
-                    <div className="mb-8">
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
-                            Password
-                        </label>
-                        <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-400" />
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                placeholder="Create a strong password"
-                                className="w-full pl-12 pr-12 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all duration-300 text-white placeholder-gray-400"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-400 transition-colors duration-300"
-                            >
-                                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Password Strength Indicator */}
-                    <div className="mb-6">
-                        <div className="flex space-x-1 mb-2">
-                            <div className={`h-2 w-full rounded ${password.length >= 4 ? 'bg-red-500' : 'bg-gray-600'}`}></div>
-                            <div className={`h-2 w-full rounded ${password.length >= 6 ? 'bg-yellow-500' : 'bg-gray-600'}`}></div>
-                            <div className={`h-2 w-full rounded ${password.length >= 8 ? 'bg-green-500' : 'bg-gray-600'}`}></div>
-                        </div>
-                        <p className="text-xs text-gray-400">
-                            Password strength: {password.length >= 8 ? 'Strong' : password.length >= 6 ? 'Medium' : password.length >= 4 ? 'Weak' : 'Too short'}
-                        </p>
-                    </div>
-
-                    {/* Terms and Conditions */}
-                    <div className="mb-6">
-                        <p className="text-xs text-gray-400 text-center">
-                            By creating an account, you agree to our 
-                            <span className="text-purple-400 hover:text-purple-300 cursor-pointer"> Terms of Service </span>
-                            and 
-                            <span className="text-purple-400 hover:text-purple-300 cursor-pointer"> Privacy Policy</span>
-                        </p>
-                    </div>
-
-                    {/* Sign Up Button */}
-                    <button
-                        type="submit"
-                        className="group relative w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl mb-4"
-                    >
-                        <span className="relative z-10 flex items-center justify-center">
-                            <UserPlus className="mr-2 w-5 h-5" />
-                            Create Account
-                            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                        </span>
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </button>
-                </form>
-
-                {/* Additional Links */}
-                <div className="text-center mt-6">
-                    <p className="text-gray-400 mb-4">
-                        Already have an account? 
-                        <Link href="/" className="text-purple-400 hover:text-purple-300 ml-1 transition-colors duration-300">
-                            Sign in here
-                        </Link>
-                    </p>
-                    
-                    {/* Login Button */}
-                    <Link 
-                        href="/" 
-                        className="group inline-flex items-center px-6 py-2 border-2 border-purple-400 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:bg-purple-400 hover:text-black"
-                    >
-                        <LogIn className="mr-2 w-4 h-4" />
-                        Back to Login
-                    </Link>
-                </div>
-
-                {/* Social Login Options */}
-                <div className="mt-8">
-                    <div className="relative">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-600"></div>
-                        </div>
-                        <div className="relative flex justify-center text-sm">
-                            <span className="px-2 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-400">
-                                Quick and secure signup
-                            </span>
-                        </div>
-                    </div>
-                </div>
+            {/* Name */}
+            <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-300 group-hover:from-purple-300 group-hover:to-pink-300">
+              Usama Zia
             </div>
-
-            <style jsx>{`
-                .animation-delay-2000 {
-                    animation-delay: 2s;
-                }
-                
-                .animation-delay-4000 {
-                    animation-delay: 4s;
-                }
-            `}</style>
+          </Link>
+          <h2 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
+            Create Account
+          </h2>
+          <p className="text-gray-400">Join us to showcase your amazing work</p>
         </div>
-    );
+
+        {/* Signup Form */}
+        <form
+          onSubmit={signupHandle}
+          className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-2xl"
+        >
+          {/* Email Input */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Email Address
+            </label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-400" />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Enter your email"
+                className="w-full pl-12 pr-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all duration-300 text-white placeholder-gray-400"
+              />
+            </div>
+          </div>
+
+          {/* Password Input */}
+          <div className="mb-8">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Password
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-400" />
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Create a strong password"
+                className="w-full pl-12 pr-12 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all duration-300 text-white placeholder-gray-400"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-400 transition-colors duration-300"
+              >
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Password Strength Indicator */}
+          <div className="mb-6">
+            <div className="flex space-x-1 mb-2">
+              <div
+                className={`h-2 w-full rounded ${
+                  password.length >= 4 ? "bg-red-500" : "bg-gray-600"
+                }`}
+              ></div>
+              <div
+                className={`h-2 w-full rounded ${
+                  password.length >= 6 ? "bg-yellow-500" : "bg-gray-600"
+                }`}
+              ></div>
+              <div
+                className={`h-2 w-full rounded ${
+                  password.length >= 8 ? "bg-green-500" : "bg-gray-600"
+                }`}
+              ></div>
+            </div>
+            <p className="text-xs text-gray-400">
+              Password strength:{" "}
+              {password.length >= 8
+                ? "Strong"
+                : password.length >= 6
+                ? "Medium"
+                : password.length >= 4
+                ? "Weak"
+                : "Too short"}
+            </p>
+          </div>
+
+          {/* Terms and Conditions */}
+          <div className="mb-6">
+            <p className="text-xs text-gray-400 text-center">
+              By creating an account, you agree to our
+              <span className="text-purple-400 hover:text-purple-300 cursor-pointer">
+                {" "}
+                Terms of Service{" "}
+              </span>
+              and
+              <span className="text-purple-400 hover:text-purple-300 cursor-pointer">
+                {" "}
+                Privacy Policy
+              </span>
+            </p>
+          </div>
+
+          {/* Sign Up Button */}
+          <button
+            type="submit"
+            className="group relative w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl mb-4"
+          >
+            <span className="relative z-10 flex items-center justify-center">
+              <UserPlus className="mr-2 w-5 h-5" />
+              Create Account
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+            </span>
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </button>
+        </form>
+
+        {/* Additional Links */}
+        <div className="text-center mt-6">
+          <p className="text-gray-400 mb-4">
+            Already have an account?
+            <Link
+              href="/"
+              className="text-purple-400 hover:text-purple-300 ml-1 transition-colors duration-300"
+            >
+              Sign in here
+            </Link>
+          </p>
+
+          {/* Login Button */}
+          <Link
+            href="/"
+            className="group inline-flex items-center px-6 py-2 border-2 border-purple-400 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:bg-purple-400 hover:text-black"
+          >
+            <LogIn className="mr-2 w-4 h-4" />
+            Back to Login
+          </Link>
+        </div>
+
+        {/* Social Login Options */}
+        <div className="mt-8">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-600"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-400">
+                Quick and secure signup
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
+    </div>
+  );
 };
 
 export default index;

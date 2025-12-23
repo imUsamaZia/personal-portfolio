@@ -4,183 +4,31 @@ import {
   Github,
   Eye,
   Code,
-  Palette,
-  Smartphone,
-  Monitor,
-  Database,
-  Server,
+ 
   Zap,
-  Star,
   Calendar,
-  Users,
-  TrendingUp,
+  
   Filter,
   Search,
-  Play,
+    ArrowRight,
+
   Award,
   Heart,
-  MessageCircle,
-  Share2,
-  Bookmark,
-  ArrowRight,
-  Globe,
-  ShoppingCart,
-  FileText,
-  Camera,
-  Music,
-  Calculator,
-  Gamepad2,
-  Coffee,
-  MapPin,
+    
 } from "lucide-react";
 import useVisibilityStore from "../stores/visibilityStore";
 import Header from "@/components/layout/Header";
-
+import Footer from "@/components/layout/Footer";
+import {
+  filters,
+  projects,
+} from "../data/data";
 export default function index() {
-  const {isVisible, setIsVisible,mousePosition, setMousePosition} = useVisibilityStore()
+  const {isVisible, setIsVisible} = useVisibilityStore()
   const [activeFilter, setActiveFilter] = useState("All");
   const [hoveredProject, setHoveredProject] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState("grid");
-
-  const filters = [
-    "All",
-    "Web Apps",
-    "E-Commerce",
-    "Mobile",
-    "UI/UX",
-    "Full Stack",
-  ];
-
-  const projects = [
-    {
-      id: 1,
-      title: "E-Commerce Platform",
-      description:
-        "A full-stack e-commerce solution with advanced features like real-time inventory, payment processing, and admin dashboard.",
-      longDescription:
-        "Built with Next.js and Node.js, this platform features user authentication, product management, shopping cart, order tracking, and integrated payment solutions.",
-      category: "E-Commerce",
-      tags: ["Next.js", "Node.js", "MongoDB", "Stripe", "Tailwind CSS"],
-      image: "/api/placeholder/600/400",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/example",
-      status: "Live",
-      duration: "3 months",
-      team: "2 developers",
-      likes: 124,
-      views: 2340,
-      featured: true,
-      color: "from-purple-500 to-pink-500",
-      icon: ShoppingCart,
-    },
-    {
-      id: 2,
-      title: "Task Management Dashboard",
-      description:
-        "A comprehensive project management tool with team collaboration features, real-time updates, and analytics.",
-      longDescription:
-        "Features include drag-and-drop task boards, team chat, file sharing, time tracking, and detailed project analytics with beautiful data visualizations.",
-      category: "Web Apps",
-      tags: ["React", "Firebase", "Material-UI", "Chart.js", "WebSocket"],
-      image: "/api/placeholder/600/400",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/example",
-      status: "In Progress",
-      duration: "2 months",
-      team: "Solo project",
-      likes: 89,
-      views: 1560,
-      featured: true,
-      color: "from-blue-500 to-cyan-500",
-      icon: FileText,
-    },
-    {
-      id: 3,
-      title: "Social Media App",
-      description:
-        "A modern social platform with real-time messaging, story features, and advanced privacy controls.",
-      longDescription:
-        "Built with React Native and Node.js, featuring real-time chat, photo/video sharing, stories, user profiles, and social interactions.",
-      category: "Mobile",
-      tags: ["React Native", "Node.js", "Socket.io", "AWS S3", "PostgreSQL"],
-      image: "/api/placeholder/600/400",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/example",
-      status: "Completed",
-      duration: "4 months",
-      team: "3 developers",
-      likes: 156,
-      views: 3200,
-      featured: false,
-      color: "from-green-500 to-emerald-500",
-      icon: MessageCircle,
-    },
-    {
-      id: 4,
-      title: "Portfolio Website",
-      description:
-        "A stunning portfolio website with modern animations, dark mode, and responsive design.",
-      longDescription:
-        "Features include animated transitions, project showcases, contact forms, blog integration, and optimized performance.",
-      category: "UI/UX",
-      tags: ["Next.js", "Tailwind CSS", "Framer Motion", "Vercel"],
-      image: "/api/placeholder/600/400",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/example",
-      status: "Live",
-      duration: "1 month",
-      team: "Solo project",
-      likes: 203,
-      views: 4100,
-      featured: true,
-      color: "from-orange-500 to-red-500",
-      icon: Globe,
-    },
-    {
-      id: 5,
-      title: "Weather App",
-      description:
-        "A beautiful weather application with location-based forecasts and interactive maps.",
-      longDescription:
-        "Features current weather, 7-day forecast, weather maps, location search, and beautiful weather animations.",
-      category: "Web Apps",
-      tags: ["React", "Weather API", "Mapbox", "Chart.js"],
-      image: "/api/placeholder/600/400",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/example",
-      status: "Live",
-      duration: "2 weeks",
-      team: "Solo project",
-      likes: 67,
-      views: 890,
-      featured: false,
-      color: "from-cyan-500 to-blue-500",
-      icon: MapPin,
-    },
-    {
-      id: 6,
-      title: "Expense Tracker",
-      description:
-        "A comprehensive expense tracking app with budget management and financial insights.",
-      longDescription:
-        "Track expenses, set budgets, categorize spending, generate reports, and get financial insights with beautiful charts.",
-      category: "Full Stack",
-      tags: ["Vue.js", "Express.js", "MySQL", "Chart.js", "JWT"],
-      image: "/api/placeholder/600/400",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/example",
-      status: "Completed",
-      duration: "6 weeks",
-      team: "Solo project",
-      likes: 92,
-      views: 1340,
-      featured: false,
-      color: "from-yellow-500 to-orange-500",
-      icon: Calculator,
-    },
-  ];
-
   const filteredProjects = projects.filter((project) => {
     const matchesFilter =
       activeFilter === "All" || project.category === activeFilter;
@@ -196,14 +44,6 @@ export default function index() {
 
   useEffect(() => {
     setIsVisible(true);
-  }, []);
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   const getStatusColor = (status) => {
@@ -222,24 +62,7 @@ export default function index() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden relative">
       {/* Enhanced Animated Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-60 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-60 animate-pulse animation-delay-2000"></div>
-        <div className="absolute top-1/2 left-1/4 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-pulse animation-delay-4000"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-60 h-60 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-pulse animation-delay-6000"></div>
-      </div>
-
-      {/* Advanced Cursor Effect */}
-      <div
-        className="fixed w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full pointer-events-none z-50 transition-all duration-100 ease-out"
-        style={{
-          left: mousePosition.x - 16,
-          top: mousePosition.y - 16,
-          transform: hoveredProject ? "scale(1.5)" : "scale(0.8)",
-          opacity: 0.6,
-        }}
-      ></div>
-
+    
       {/* Navigation */}
       <Header />
 
@@ -525,7 +348,7 @@ export default function index() {
           </div>
         </div>
       </section>
-
+<Footer/>
      
     </div>
   );

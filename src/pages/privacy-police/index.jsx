@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronRight, Shield, Eye, Lock, Database, Cookie, Mail, AlertTriangle } from 'lucide-react';
+import { ChevronRight, Shield, Github ,Linkedin ,Star , Eye, Lock, Database, Cookie, Mail, AlertTriangle } from 'lucide-react';
 import useVisibilityStore from '../stores/visibilityStore';
 import Header from '@/components/layout/Header';
 import Link from 'next/link';
 
-const PrivacyPolicy = () => {
+const index = () => {
   const { isVisible, setIsVisible } = useVisibilityStore();
 
   useEffect(() => {
@@ -436,4 +436,4 @@ const PrivacyPolicy = () => {
         </div>
   )
 }
-export default PrivacyPolicy;
+export default index;

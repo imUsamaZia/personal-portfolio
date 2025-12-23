@@ -4,7 +4,7 @@ import useVisibilityStore from '../stores/visibilityStore';
 import Header from '@/components/layout/Header';
 import Link from 'next/link';
 
-const TermsOfService = () => {
+const index = () => {
   const { isVisible, setIsVisible } = useVisibilityStore();
 
   useEffect(() => {
@@ -255,4 +255,4 @@ const TermsOfService = () => {
   );
 };
 
-export default TermsOfService;
+export default index;
