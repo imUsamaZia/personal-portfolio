@@ -1,343 +1,393 @@
-import axios from "axios";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import {
+  ChevronDown,
+  Code,
+  Palette,
+  Rocket,
   Mail,
-  Lock,
-  Eye,
-  EyeOff,
-  User,
-  ArrowRight,
-  CheckCircle,
-  X,
-  AlertCircle,
+  Github,
+  Linkedin,
+  ExternalLink,
+  Star,
   Zap,
+  Monitor,
+  Smartphone,
+  User,
+  Camera,
 } from "lucide-react";
-
-// Custom Popup Component
-const CustomPopup = ({ isVisible, type, title, message, onClose }) => {
-  if (!isVisible) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div
-        className={`relative bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 max-w-md mx-4 transform transition-all duration-300 ${
-          isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
-        }`}
-      >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-300"
-        >
-          <X className="w-5 h-5" />
-        </button>
-
-        {/* Icon */}
-        <div className="text-center mb-4">
-          {type === "success" ? (
-            <div className="relative">
-              <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-              <Zap className="w-8 h-8 text-yellow-400 absolute top-0 right-1/3 animate-pulse" />
-            </div>
-          ) : (
-            <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
-          )}
-        </div>
-
-        {/* Content */}
-        <div className="text-center">
-          <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-          <p className="text-gray-300 mb-6">{message}</p>
-
-          <button
-            onClick={onClose}
-            className="group relative px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
-          >
-            <span className="relative z-10">
-              {type === "success" ? "Continue to Portfolio" : "Try Again"}
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
+import Header from "@/components/layout/Header";
+import Link from "next/link";
+import Footer from "@/components/layout/Footer";
+import useVisibilityStore from "./stores/visibilityStore";
+import { skills, Projects } from "./data/data";
 const index = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const [imageLoaded, setImageLoaded] = useState(false);
-  
-  const [popup, setPopup] = useState({
-    isVisible: false,
-    type: "success",
-    title: "",
-    message: "",
-  });
-  const route = useRouter();
+  const { isVisible, setIsVisible } =
+    useVisibilityStore();
+  const [currentSkill, setCurrentSkill] = useState(0);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  useEffect(() => {
+    setIsVisible(true);
+    const interval = setInterval(() => {
+      setCurrentSkill((prev) => (prev + 1) % skills.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  const showPopup = (type, title, message) => {
-    setPopup({
-      isVisible: true,
-      type,
-      title,
-      message,
-    });
-  };
-
-  const closePopup = () => {
-    setPopup((prev) => ({ ...prev, isVisible: false }));
-    if (popup.type === "success") {
-      setTimeout(() => {
-        route.push("/home");
-      }, 300);
-    }
-  };
-
-  const signupHandle = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(
-        "/api/login",
-        { email, password },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      // Show success popup instead of alert
-      showPopup(
-        "success",
-        "Welcome Back! 🚀",
-        `Login successful! Welcome back to your portfolio dashboard. You're being redirected now.`
-      );
-      console.log("response", res.data);
-    } catch (error) {
-      // Show error popup instead of alert
-      showPopup(
-        "error",
-        "Login Failed",
-        error.response?.data?.message ||
-          "Invalid credentials. Please check your email and password and try again."
-      );
-      console.log("error baby", error);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden relative flex items-center justify-center">
-      {/* Custom Popup */}
-      <CustomPopup
-        isVisible={popup.isVisible}
-        type={popup.type}
-        title={popup.title}
-        message={popup.message}
-        onClose={closePopup}
-      />
-
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse animation-delay-2000"></div>
-        <div className="absolute top-40 left-40 w-60 h-60 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse animation-delay-4000"></div>
-      </div>
-
-      {/* Floating Cursor Effect */}
-      <div
-        className="fixed w-6 h-6 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full pointer-events-none z-40 transition-all duration-100 ease-out"
-        style={{
-          left: mousePosition.x - 12,
-          top: mousePosition.y - 12,
-          transform: "scale(0.8)",
-          opacity: 0.6,
-        }}
-      ></div>
-
-      {/* Login Form Container */}
-      <div
-        className={`w-full max-w-md mx-4 py-[2rem] transition-all duration-1500 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
-        }`}
-      >
-        {/* Logo/Brand */}
-        <div className="text-center mb-8">
-          <Link
-            href="/home"
-            className="flex items-center space-x-3 group mb-[2rem]"
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden relative">    
+      <Header />
+      {/* Hero Section */}
+      <section className="min-h-screen flex items-center justify-center relative mt-[5rem] px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <div
+            className={`transition-all duration-1500 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-20"
+            }`}
           >
-            {/* Profile Picture Container */}
-            <div className="relative">
-              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-purple-400/50 transition-all duration-300 group-hover:border-purple-400 group-hover:scale-110">
-                <img
-                  src="/images/pic2.jpg"
-                  alt="Usama Zia"
-                  className="w-full h-full object-cover transition-all duration-300 group-hover:scale-110"
-                  onLoad={() => setImageLoaded(true)}
-                />
+            <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent animate-gradient-x">
+              Frontend Developer
+            </h1>
+            <div className="text-2xl md:text-4xl mb-8 h-16 flex items-center justify-center">
+              <span className="mr-4">Crafting with</span>
+              <span className="text-purple-400 font-bold min-w-[200px] text-left">
+                {skills[currentSkill]}
+              </span>
+            </div>
+            <p className="text-xl md:text-2xl mb-12 max-w-3xl mx-auto text-gray-300 leading-relaxed">
+              Passionate about creating beautiful, responsive, and user-friendly
+              web experiences with modern technologies and clean code
+              architecture.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+              <Link
+                href="/projects"
+                className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+              >
+                <span className="relative z-10">View My Work</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <ExternalLink className="inline-block ml-2 w-5 h-5" />
+              </Link>
+              <Link
+                href="/contacts"
+                className="px-8 py-4 border-2 border-purple-400 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:bg-purple-400 hover:text-black"
+              >
+                <Mail className="inline-block mr-2 w-5 h-5" />
+                Get In Touch
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <ChevronDown className="w-8 h-8 text-purple-400" />
+        </div>
+      </section>
+      {/* NEW 3D Picture Section */}
+      <section className="py-24 px-6 relative overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Meet the Developer
+            </h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              Behind every great project is a passionate developer dedicated to
+              bringing ideas to life through code.
+            </p>
+          </div>
+
+          <div className="flex justify-center items-center">
+            <div className="relative group perspective-1000">
+              {/* 3D Container */}
+              <div className="relative w-80 h-80 md:w-96 md:h-96 transform-gpu transition-all duration-700 ease-out group-hover:rotate-y-12 group-hover:rotate-x-6 hover:scale-105">
+                {/* Main Image Container */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/30 via-pink-600/30 to-blue-600/30 rounded-3xl backdrop-blur-sm border border-white/20 shadow-2xl transform-gpu transition-all duration-500 group-hover:shadow-purple-500/25">
+                  {/* Floating Rings */}
+                  <div className="absolute -inset-4 rounded-3xl border border-purple-400/30 animate-pulse"></div>
+                  <div className="absolute -inset-8 rounded-3xl border border-pink-400/20 animate-pulse animation-delay-1000"></div>
+
+                  {/* Image Placeholder - Replace with your actual image */}
+                  <div className="w-full h-full rounded-3xl overflow-hidden relative bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                    <img
+                      src="/images/pic2.jpg"
+                      alt="Developer Portrait"
+                      className="w-full h-full object-cover rounded-3xl transition-all duration-500 group-hover:scale-110"
+                      onLoad={() => setImageLoaded(true)}
+                    />
+
+                    {/* Overlay Effects */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-purple-900/50 via-transparent to-transparent rounded-3xl"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-pink-900/30 rounded-3xl"></div>
+                  </div>
+
+                  {/* Floating Elements */}
+                  <div className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full animate-bounce animation-delay-500 shadow-lg"></div>
+                  <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full animate-bounce animation-delay-1500 shadow-lg"></div>
+                  <div className="absolute top-8 -left-6 w-4 h-4 bg-gradient-to-br from-pink-400 to-red-500 rounded-full animate-pulse shadow-lg"></div>
+                </div>
+
+                {/* Shadow/Base */}
+                <div className="absolute top-8 left-8 w-full h-full bg-black/20 rounded-3xl blur-xl -z-10 transform transition-all duration-500 group-hover:translate-x-2 group-hover:translate-y-2"></div>
               </div>
 
-              {/* Animated Ring */}
-              <div className="absolute inset-0 rounded-full border border-purple-400/30 animate-pulse"></div>
+              {/* Info Cards floating around the image */}
+              <div className="absolute -left-20 top-1/4 hidden lg:block">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 transform transition-all duration-500 hover:scale-110 hover:bg-white/20">
+                  <Code className="w-8 h-8 text-purple-400 mb-2" />
+                  <p className="text-sm font-semibold">Clean Code</p>
+                </div>
+              </div>
 
-              {/* Online Status Indicator */}
-              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-black/50 animate-pulse"></div>
-            </div>
+              <div className="absolute -right-20 top-1/2 hidden lg:block">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 transform transition-all duration-500 hover:scale-110 hover:bg-white/20 animation-delay-500">
+                  <Zap className="w-8 h-8 text-yellow-400 mb-2" />
+                  <p className="text-sm font-semibold">Fast Performance</p>
+                </div>
+              </div>
 
-            {/* Name */}
-            <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-300 group-hover:from-purple-300 group-hover:to-pink-300">
-              Usama Zia
-            </div>
-          </Link>
-          <h2 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
-            Welcome Back
-          </h2>
-          <p className="text-gray-400">Sign in to access your portfolio</p>
-        </div>
-
-        {/* Login Form */}
-        <form
-          onSubmit={signupHandle}
-          className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-2xl"
-        >
-          {/* Email Input */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Email Address
-            </label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-400" />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                placeholder="Enter your email"
-                className="w-full pl-12 pr-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all duration-300 text-white placeholder-gray-400"
-              />
+              <div className="absolute -left-16 bottom-1/4 hidden lg:block">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 transform transition-all duration-500 hover:scale-110 hover:bg-white/20 animation-delay-1000">
+                  <Palette className="w-8 h-8 text-pink-400 mb-2" />
+                  <p className="text-sm font-semibold">Creative Design</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Password Input */}
-          <div className="mb-8">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Password
-            </label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-400" />
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                placeholder="Enter your password"
-                className="w-full pl-12 pr-12 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all duration-300 text-white placeholder-gray-400"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-400 transition-colors duration-300"
-              >
-                {showPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
+          {/* Description below the image */}
+          <div className="text-center mt-16 max-w-3xl mx-auto">
+            <h3 className="text-3xl font-bold mb-6 text-white">
+              Passionate Developer & Designer
+            </h3>
+            <p className="text-lg text-gray-300 leading-relaxed mb-8">
+              With a keen eye for detail and a passion for creating exceptional
+              user experiences, I bring ideas to life through innovative web
+              solutions. Every project is an opportunity to push boundaries and
+              deliver something extraordinary.
+            </p>
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {[
+                { number: "11+", label: "Projects Completed" },
+                { number: "2+", label: "Years Experience" },
+                { number: "100%", label: "Client Satisfaction" },
+                { number: "24/7", label: "Support Available" },
+              ].map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className="text-3xl font-bold text-purple-400 mb-2">
+                    {stat.number}
+                  </div>
+                  <div className="text-gray-400 text-sm">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* About Section */}
+      <section className="py-24 px-6 relative">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-5xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                About Me
+              </h2>
+              <p className="text-xl text-gray-300 mb-6 leading-relaxed">
+                I'm a passionate frontend developer with 2 years of experience
+                creating exceptional digital experiences. My journey started
+                with curiosity and has evolved into a deep love for crafting
+                pixel-perfect interfaces.
+              </p>
+              <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                I specialize in React.js, Next.js, and modern CSS frameworks,
+                always staying updated with the latest technologies and best
+                practices in web development.
+              </p>
+
+              {/* Skills Icons */}
+              <div className="flex flex-wrap gap-4">
+                {[Code, Palette, Rocket, Monitor, Smartphone, Zap].map(
+                  (Icon, index) => (
+                    <div
+                      key={index}
+                      className="p-3 bg-white/10 rounded-lg backdrop-blur-sm hover:bg-white/20 transition-all duration-300 transform hover:scale-110"
+                    >
+                      <Icon className="w-6 h-6 text-purple-400" />
+                    </div>
+                  )
                 )}
-              </button>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="w-full h-96 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-3xl backdrop-blur-sm border border-white/10 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-32 h-32 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mx-auto mb-6 flex items-center justify-center">
+                    <Code className="w-16 h-16" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2">
+                    Clean Code Enthusiast
+                  </h3>
+                  <p className="text-gray-400">
+                    Writing maintainable and scalable solutions
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+      </section>
+      {/* Skills Section */}
+      <section className="py-24 px-6 bg-black/20">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Technical Skills
+          </h2>
 
-          {/* Forgot Password Link */}
-          <div className="mb-6 text-right">
-            <Link
-              href="#"
-              className="text-sm text-purple-400 hover:text-purple-300 transition-colors duration-300"
-            >
-              Forgot your password?
-            </Link>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                category: "Frontend Frameworks",
+                skills: ["React.js", "Next.js", "Vue.js", "Angular"],
+                icon: Code,
+              },
+              {
+                category: "Styling & UI",
+                skills: [
+                  "Tailwind CSS",
+                  "Bootstrap",
+                  "Material-UI",
+                  "Styled Components",
+                ],
+                icon: Palette,
+              },
+              {
+                category: "Tools & Others",
+                skills: ["TypeScript", "Git", "Webpack", "Node.js"],
+                icon: Rocket,
+              },
+            ].map((skillGroup, index) => (
+              <div
+                key={index}
+                className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-300 transform hover:scale-105"
+              >
+                <skillGroup.icon className="w-12 h-12 text-purple-400 mb-6" />
+                <h3 className="text-2xl font-bold mb-6">
+                  {skillGroup.category}
+                </h3>
+                <div className="space-y-3">
+                  {skillGroup.skills.map((skill, skillIndex) => (
+                    <div
+                      key={skillIndex}
+                      className="flex items-center space-x-3"
+                    >
+                      <Star className="w-4 h-4 text-yellow-400" />
+                      <span className="text-gray-300">{skill}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
+        </div>
+      </section>
+      {/* Featured Projects */}
+      <section className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Featured Projects
+          </h2>
 
-          {/* Action Buttons */}
-          <div className="space-y-4">
-            {/* Login Button */}
-            <button
-              type="submit"
-              className="group relative w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
-            >
-              <span className="relative z-10 flex items-center justify-center">
-                Login
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </button>
-
-            {/* Sign Up Link */}
-            <Link
-              href="/signup-form"
-              className="group w-full px-6 py-3 border-2 border-purple-400 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:bg-purple-400 hover:text-black flex items-center justify-center"
-            >
-              <User className="mr-2 w-5 h-5" />
-              Create Account
-            </Link>
+          <div className="grid md:grid-cols-3 gap-8">
+            {Projects.map((project, index) => (
+              <div
+                key={index}
+                className="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 transform hover:scale-105"
+              >
+                <div className="h-48 bg-gradient-to-br from-purple-600/30 to-pink-600/30 rounded-xl mb-6 flex items-center justify-center group-hover:from-purple-600/50 group-hover:to-pink-600/50 transition-all duration-300">
+                  <Monitor className="w-16 h-16 text-white/80" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">{project.name}</h3>
+                <p className="text-gray-400 mb-4">{project.tech}</p>
+                <div className="flex justify-between items-center">
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm ${
+                      project.status === "Live"
+                        ? "bg-green-500/20 text-green-400"
+                        : project.status === "In Progress"
+                        ? "bg-yellow-500/20 text-yellow-400"
+                        : "bg-blue-500/20 text-blue-400"
+                    }`}
+                  >
+                    {project.status}
+                  </span>
+                  <ExternalLink className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform duration-300" />
+                </div>
+              </div>
+            ))}
           </div>
-        </form>
-
-        {/* Additional Links */}
-        <div className="text-center mt-6">
-          <p className="text-gray-400">
-            Don't have an account?
-            <Link
-              href="/signup-form"
-              className="text-purple-400 hover:text-purple-300 ml-1 transition-colors duration-300"
-            >
-              Sign up here
-            </Link>
+        </div>
+      </section>
+      {/* Contact Section */}
+      <section className="py-24 px-6 bg-black/20">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-5xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Let's Work Together
+          </h2>
+          <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+            Ready to bring your ideas to life? Let's discuss your next project
+            and create something amazing together.
           </p>
-        </div>
 
-        {/* Quick Login Info */}
-        <div className="mt-8">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-600"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-400">
-                Secure & Fast Login
-              </span>
-            </div>
+          <div className="flex justify-center space-x-8 mb-12">
+            {[
+              {
+                icon: Github,
+                label: "GitHub",
+                href: "https://github.com/imUsamaZia",
+              },
+              {
+                icon: Linkedin,
+                label: "LinkedIn",
+                href: "https://www.linkedin.com/in/usama-zia-06984a286/",
+              },
+              {
+                icon: Mail,
+                label: "Email",
+                href: "mailto:maharusamazia@gmail.com",
+              },
+            ].map((social, index) => (
+              <a
+                key={index}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
+                className="group p-4 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 hover:bg-white/10 transition-all duration-300 transform hover:scale-110"
+              >
+                <social.icon className="w-8 h-8 text-purple-400 group-hover:text-white transition-colors duration-300" />
+              </a>
+            ))}
           </div>
+
+          <button className="group relative px-12 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full font-semibold text-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+            <span className="relative z-10">Start a Project</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </button>
         </div>
-      </div>
-
-      <style jsx>{`
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
+      </section>
+      <Footer />
     </div>
   );
 };
