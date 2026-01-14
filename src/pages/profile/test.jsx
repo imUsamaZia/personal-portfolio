@@ -53,7 +53,6 @@ const ProfileSlider = () => {
   return (
     <section className="w-full bg-[#00362E] py-12">
       <div className="max-w-6xl mx-auto px-6 relative">
-
         {/* ================= DESKTOP HEADING (UNCHANGED) ================= */}
         <div className="hidden lg:flex flex-col gap-2 absolute top-1 text-center z-10">
           <button className="bg-white rounded-[22px] w-[113px] text-sm font-medium text-black py-1">
@@ -84,7 +83,6 @@ const ProfileSlider = () => {
           {testimonials.map((t) => (
             <SwiperSlide key={t.id}>
               <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center justify-center">
-
                 {/* ================= MOBILE CARD 2: VIDEO ================= */}
                 <div className="lg:hidden w-full">
                   <div className="relative rounded-[20px] overflow-hidden shadow-lg">
@@ -99,7 +97,10 @@ const ProfileSlider = () => {
                 {/* ================= DESKTOP LEFT SIDE (UNCHANGED) ================= */}
                 <div className="flex-1">
                   <div className="bg-emerald-800/80 rounded-xl p-8 text-emerald-50 shadow-md">
-                    <img src="/images/Quotes.png" className="size-[40px] mb-4" />
+                    <img
+                      src="/images/Quotes.png"
+                      className="size-[40px] mb-4"
+                    />
                     <p className="text-lg">{t.quote}</p>
 
                     <hr className="my-6 border-white" />
@@ -113,19 +114,29 @@ const ProfileSlider = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 mt-6">
-                    <img
-                      src={t.avatar}
-                      alt=""
-                      className="w-12 h-12 rounded-full"
-                    />
-                    <div>
-                      <div className="font-semibold text-white">{t.name}</div>
-                      <div className="text-sm text-emerald-200 flex lg:flex-row flex-col gap-2 items-center">
-                        {t.role} | <Link className="w-3 h-3" /> cypexsoft.com
-                      </div>
-                    </div>
-                  </div>
+                 <div className="flex items-center justify-between mt-6">
+                                    <div className="flex items-center gap-4">
+                                      <img
+                                        src={t.avatar}
+                                        alt={t.name}
+                                        className="w-12 h-12 rounded-full object-cover"
+                                      />
+                                      <div>
+                                        <div className="font-semibold text-white">{t.name}</div>
+                                        <div className="text-sm text-emerald-200 flex gap-2 items-center">
+                                          <span>{t.role}</span>
+                                          <span>|</span>
+                                          <a
+                                            href="#"
+                                            className="text-[#1F4FE1] flex  underline gap-1 items-center"
+                                          >
+                                            <Link className="text-[#1F4FE1] size-[12px]" />
+                                            cypexsoft.com
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
                 </div>
 
                 {/* ================= DESKTOP RIGHT SIDE (UNCHANGED) ================= */}
@@ -138,7 +149,6 @@ const ProfileSlider = () => {
                     />
                   </div>
                 </div>
-
               </div>
             </SwiperSlide>
           ))}
@@ -177,7 +187,7 @@ const ProfileSlider = () => {
 
         {/* ================= MOBILE CARD 4: ARROWS ================= */}
         <div className="lg:hidden flex justify-start gap-4 mt-8">
-           <button
+          <button
             onClick={() => {
               swiperRef.current?.slidePrev();
               setActiveBtn("prev");
@@ -205,7 +215,6 @@ const ProfileSlider = () => {
             <ArrowRight />
           </button>
         </div>
-
       </div>
     </section>
   );
