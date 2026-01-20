@@ -36,7 +36,13 @@ import {
   Calculator,
   TrendingUp,
   BookOpen,
-
+  Server,
+  Terminal,
+  Layers,
+  Cloud,
+  Box,
+  Cpu,
+  GitBranch,
 } from "lucide-react";
 
 export const lucidIcons = {
@@ -68,23 +74,213 @@ export const lucidIcons = {
   Clock,
 };
 
+
 export const skills = [
   "React.js",
   "Next.js",
-  "TypeScript",
-  "Tailwind CSS",
   "Node.js",
   "MongoDB",
+  "TypeScript",
+  "Express.js",
+  "PostgreSQL",
+  "Full Stack Development",
 ];
+
+// Projects data with full stack projects
 export const Projects = [
-  { name: "E-Commerce Platform", tech: "Next.js, Stripe", status: "Live" },
   {
-    name: "Task Management App",
-    tech: "React, Firebase",
-    status: "In Progress",
+    name: "E-Commerce Platform",
+    description: "Full-stack online store with payment integration, admin dashboard, and inventory management",
+    tech: "Next.js, Node.js, Stripe, PostgreSQL, Redis",
+    status: "Live",
+    image: "/api/placeholder/400/300",
   },
-  { name: "Portfolio Website", tech: "Next.js, Tailwind", status: "Completed" },
+  {
+    name: "Real-Time Task Management",
+    description: "Collaborative project management tool with real-time updates and team collaboration features",
+    tech: "React, Node.js, Socket.io, MongoDB, AWS",
+    status: "In Progress",
+    image: "/api/placeholder/400/300",
+  },
+  {
+    name: "Social Media Dashboard",
+    description: "Full-featured social platform with authentication, posts, comments, and analytics",
+    tech: "Next.js, Express, PostgreSQL, Redis, Docker",
+    status: "Completed",
+    image: "/api/placeholder/400/300",
+  },
+  {
+    name: "API & Microservices Platform",
+    description: "Scalable microservices architecture with RESTful APIs and GraphQL endpoints",
+    tech: "Node.js, GraphQL, MongoDB, Docker, Kubernetes",
+    status: "Live",
+    image: "/api/placeholder/400/300",
+  },
+  {
+    name: "Real-Time Chat Application",
+    description: "WebSocket-based chat app with file sharing, group chats, and notifications",
+    tech: "React, Node.js, Socket.io, MongoDB, AWS S3",
+    status: "Completed",
+    image: "/api/placeholder/400/300",
+  },
+  {
+    name: "Restaurant Management System",
+    description: "Complete POS system with order management, inventory tracking, and analytics",
+    tech: "Next.js, Express, PostgreSQL, Prisma, Stripe",
+    status: "Live",
+    image: "/api/placeholder/400/300",
+  },
 ];
+
+// Comprehensive skill set with proficiency levels for full stack
+export const skill = [
+  // Frontend
+  { name: "React.js", level: 90, icon: Code, category: "Frontend" },
+  { name: "Next.js", level: 85, icon: Rocket, category: "Frontend" },
+  { name: "TypeScript", level: 80, icon: Zap, category: "Frontend" },
+  { name: "Tailwind CSS", level: 95, icon: Palette, category: "Frontend" },
+  { name: "JavaScript", level: 88, icon: Lightbulb, category: "Frontend" },
+  
+  // Backend
+  { name: "Node.js", level: 85, icon: Server, category: "Backend" },
+  { name: "Express.js", level: 85, icon: Terminal, category: "Backend" },
+  { name: "MongoDB", level: 80, icon: Database, category: "Backend" },
+  { name: "PostgreSQL", level: 75, icon: Database, category: "Backend" },
+  { name: "REST APIs", level: 88, icon: Layers, category: "Backend" },
+  { name: "GraphQL", level: 70, icon: GitBranch, category: "Backend" },
+  
+  // DevOps & Tools
+  { name: "Git & GitHub", level: 85, icon: Github, category: "Tools" },
+  { name: "Docker", level: 70, icon: Box, category: "DevOps" },
+  { name: "AWS", level: 65, icon: Cloud, category: "DevOps" },
+  { name: "CI/CD", level: 70, icon: Cpu, category: "DevOps" },
+];
+
+// Skill categories for organized display
+export const skillCategories = [
+  {
+    category: "Frontend Development",
+    skills: [
+      "React.js & Next.js",
+      "TypeScript & JavaScript",
+      "Tailwind CSS & Material-UI",
+      "Redux & State Management",
+      "Responsive Design",
+      "Framer Motion",
+    ],
+    icon: Code,
+    color: "orange",
+  },
+  {
+    category: "Backend Development",
+    skills: [
+      "Node.js & Express.js",
+      "RESTful APIs & GraphQL",
+      "Authentication & Authorization",
+      "Database Design",
+      "Microservices Architecture",
+      "Socket.io & WebSockets",
+    ],
+    icon: Server,
+    color: "red",
+  },
+  {
+    category: "Databases",
+    skills: [
+      "MongoDB & Mongoose",
+      "PostgreSQL & MySQL",
+      "Redis (Caching)",
+      "Prisma ORM",
+      "Database Optimization",
+      "Data Modeling",
+    ],
+    icon: Database,
+    color: "orange",
+  },
+  {
+    category: "DevOps & Cloud",
+    skills: [
+      "Docker & Containerization",
+      "AWS (EC2, S3, Lambda)",
+      "CI/CD Pipelines",
+      "Git & Version Control",
+      "Nginx & Deployment",
+      "Linux/Ubuntu Server",
+    ],
+    icon: Cloud,
+    color: "red",
+  },
+];
+
+// Services offered
+export const services = [
+  {
+    title: "Full Stack Web Development",
+    description: "End-to-end web application development from design to deployment",
+    icon: Layers,
+    features: [
+      "Custom web applications",
+      "Responsive UI/UX design",
+      "Database architecture",
+      "API integration",
+    ],
+  },
+  {
+    title: "Backend API Development",
+    description: "Scalable and secure backend services and RESTful APIs",
+    icon: Server,
+    features: [
+      "RESTful & GraphQL APIs",
+      "Authentication systems",
+      "Database optimization",
+      "Microservices architecture",
+    ],
+  },
+  {
+    title: "E-Commerce Solutions",
+    description: "Complete e-commerce platforms with payment integration",
+    icon: Monitor,
+    features: [
+      "Shopping cart systems",
+      "Payment gateway integration",
+      "Admin dashboards",
+      "Inventory management",
+    ],
+  },
+  {
+    title: "Cloud Deployment & DevOps",
+    description: "Deploy and maintain applications on cloud platforms",
+    icon: Cloud,
+    features: [
+      "AWS/Digital Ocean deployment",
+      "Docker containerization",
+      "CI/CD pipelines",
+      "Server management",
+    ],
+  },
+];
+
+// Tech stack showcase
+export const techStack = {
+  frontend: [
+    { name: "React", icon: Code },
+    { name: "Next.js", icon: Rocket },
+    { name: "TypeScript", icon: Zap },
+    { name: "Tailwind", icon: Palette },
+  ],
+  backend: [
+    { name: "Node.js", icon: Server },
+    { name: "Express", icon: Terminal },
+    { name: "MongoDB", icon: Database },
+    { name: "PostgreSQL", icon: Database },
+  ],
+  tools: [
+    { name: "Docker", icon: Box },
+    { name: "AWS", icon: Cloud },
+    { name: "Git", icon: Github },
+    { name: "Redis", icon: Database },
+  ],
+};
 
 export const quotes = [
   "Code is poetry written in logic",
@@ -128,16 +324,7 @@ export const timeline = [
   },
 ];
 
-export const skill = [
-  { name: "React.js", level: 90, icon: Code },
-  { name: "Next.js", level: 85, icon: Rocket },
-  { name: "TypeScript", level: 80, icon: Zap },
-  { name: "Tailwind CSS", level: 95, icon: Palette },
-  { name: "JavaScript", level: 88, icon: Lightbulb },
-  { name: "Node.js", level: 75, icon: Monitor },
-  { name: "MongoDB", level: 70, icon: Database },
-  { name: "Git & GitHub", level: 85, icon: Github },
-];
+
 
 export const interests = [
   {
@@ -381,60 +568,60 @@ export const projects = [
     icon: Calculator,
   },
 ];
-export const skillCategories = [
-  {
-    title: "Frontend Development",
-    icon: Code,
-    color: "from-blue-500 to-cyan-500",
-    skills: [
-      { name: "React.js", level: 95, experience: "2+ years" },
-      { name: "Next.js", level: 90, experience: "1.5+ years" },
-      { name: "TypeScript", level: 85, experience: "1+ year" },
-      { name: "JavaScript ES6+", level: 95, experience: "2+ years" },
-      { name: "HTML5", level: 98, experience: "2+ years" },
-      { name: "CSS3", level: 95, experience: "2+ years" },
-    ],
-  },
-  {
-    title: "Styling & UI/UX",
-    icon: Palette,
-    color: "from-purple-500 to-pink-500",
-    skills: [
-      { name: "Tailwind CSS", level: 95, experience: "1.5+ years" },
-      { name: "Bootstrap", level: 85, experience: "2+ years" },
-      { name: "Material-UI", level: 80, experience: "1+ year" },
-      { name: "Styled Components", level: 75, experience: "1+ year" },
-      { name: "Figma", level: 70, experience: "1+ year" },
-      { name: "Responsive Design", level: 95, experience: "2+ years" },
-    ],
-  },
-  {
-    title: "Backend & Database",
-    icon: Database,
-    color: "from-green-500 to-emerald-500",
-    skills: [
-      { name: "Node.js", level: 80, experience: "1+ year" },
-      { name: "Express.js", level: 75, experience: "1+ year" },
-      { name: "MongoDB", level: 70, experience: "1+ year" },
-      { name: "MySQL", level: 65, experience: "6+ months" },
-      { name: "Firebase", level: 75, experience: "1+ year" },
-      { name: "REST APIs", level: 85, experience: "1.5+ years" },
-    ],
-  },
-  {
-    title: "Tools & Technologies",
-    icon: Globe,
-    color: "from-orange-500 to-red-500",
-    skills: [
-      { name: "Git & GitHub", level: 90, experience: "2+ years" },
-      { name: "VS Code", level: 95, experience: "2+ years" },
-      { name: "Webpack", level: 70, experience: "1+ year" },
-      { name: "Vite", level: 80, experience: "1+ year" },
-      { name: "npm/yarn", level: 90, experience: "2+ years" },
-      { name: "Chrome DevTools", level: 85, experience: "2+ years" },
-    ],
-  },
-];
+// export const skillCategories = [
+//   {
+//     title: "Frontend Development",
+//     icon: Code,
+//     color: "from-blue-500 to-cyan-500",
+//     skills: [
+//       { name: "React.js", level: 95, experience: "2+ years" },
+//       { name: "Next.js", level: 90, experience: "1.5+ years" },
+//       { name: "TypeScript", level: 85, experience: "1+ year" },
+//       { name: "JavaScript ES6+", level: 95, experience: "2+ years" },
+//       { name: "HTML5", level: 98, experience: "2+ years" },
+//       { name: "CSS3", level: 95, experience: "2+ years" },
+//     ],
+//   },
+//   {
+//     title: "Styling & UI/UX",
+//     icon: Palette,
+//     color: "from-purple-500 to-pink-500",
+//     skills: [
+//       { name: "Tailwind CSS", level: 95, experience: "1.5+ years" },
+//       { name: "Bootstrap", level: 85, experience: "2+ years" },
+//       { name: "Material-UI", level: 80, experience: "1+ year" },
+//       { name: "Styled Components", level: 75, experience: "1+ year" },
+//       { name: "Figma", level: 70, experience: "1+ year" },
+//       { name: "Responsive Design", level: 95, experience: "2+ years" },
+//     ],
+//   },
+//   {
+//     title: "Backend & Database",
+//     icon: Database,
+//     color: "from-green-500 to-emerald-500",
+//     skills: [
+//       { name: "Node.js", level: 80, experience: "1+ year" },
+//       { name: "Express.js", level: 75, experience: "1+ year" },
+//       { name: "MongoDB", level: 70, experience: "1+ year" },
+//       { name: "MySQL", level: 65, experience: "6+ months" },
+//       { name: "Firebase", level: 75, experience: "1+ year" },
+//       { name: "REST APIs", level: 85, experience: "1.5+ years" },
+//     ],
+//   },
+//   {
+//     title: "Tools & Technologies",
+//     icon: Globe,
+//     color: "from-orange-500 to-red-500",
+//     skills: [
+//       { name: "Git & GitHub", level: 90, experience: "2+ years" },
+//       { name: "VS Code", level: 95, experience: "2+ years" },
+//       { name: "Webpack", level: 70, experience: "1+ year" },
+//       { name: "Vite", level: 80, experience: "1+ year" },
+//       { name: "npm/yarn", level: 90, experience: "2+ years" },
+//       { name: "Chrome DevTools", level: 85, experience: "2+ years" },
+//     ],
+//   },
+// ];
 
 export const achievement = [
   { icon: Award, title: "15+ Projects", desc: "Successfully completed" },

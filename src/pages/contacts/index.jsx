@@ -19,8 +19,8 @@ import {
   contactInfo,
   socialLinks,
   availability,
-} from "../data/data";
-import useVisibilityStore from "../stores/visibilityStore";
+} from "@/lib/data";
+import useVisibilityStore from "@/lib/visibilityStore";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 

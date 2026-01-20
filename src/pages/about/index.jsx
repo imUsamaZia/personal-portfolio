@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 
-import useVisibilityStore from "../stores/visibilityStore";
+import useVisibilityStore from "@/lib/visibilityStore";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import {
@@ -11,7 +11,7 @@ import {
   interests,
   achievements,
   lucidIcons,
-} from "../data/data";
+} from "@/lib/data";
 
 const index = () => {
   const { isVisible, setIsVisible } = useVisibilityStore();

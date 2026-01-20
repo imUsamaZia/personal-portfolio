@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown,  Star,Monitor, GitBranch, Layers } from 'lucide-react';
-import useVisibilityStore from '../stores/visibilityStore';
+import useVisibilityStore from '@/lib/visibilityStore';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import {
@@ -8,7 +8,7 @@ import {
   achievement,
   learningPath,
 
-} from "../data/data";
+} from "@/lib/data";
 import Link from 'next/link';
 export default function index() {
   const [activeSkill, setActiveSkill] = useState(null);

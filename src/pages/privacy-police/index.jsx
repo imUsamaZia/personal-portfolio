@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronRight, Shield, Github ,Linkedin ,Star , Eye, Lock, Database, Cookie, Mail, AlertTriangle } from 'lucide-react';
-import useVisibilityStore from '../stores/visibilityStore';
+import useVisibilityStore from '@/lib/visibilityStore';
 import Header from '@/components/layout/Header';
 import Link from 'next/link';
 

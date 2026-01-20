@@ -16,13 +16,13 @@ import {
   Heart,
     
 } from "lucide-react";
-import useVisibilityStore from "../stores/visibilityStore";
+import useVisibilityStore from "@/lib/visibilityStore";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import {
   filters,
   projects,
-} from "../data/data";
+} from "@/lib/data";
 export default function index() {
   const {isVisible, setIsVisible} = useVisibilityStore()
   const [activeFilter, setActiveFilter] = useState("All");

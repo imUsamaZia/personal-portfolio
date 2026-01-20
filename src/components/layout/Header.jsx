@@ -1,4 +1,4 @@
-import useVisibilityStore from "@/pages/stores/visibilityStore";
+import useVisibilityStore from "@/lib/visibilityStore";
 import React, { useState,useEffect } from "react";
 import Link from "next/link";
 import { User } from "lucide-react";
@@ -49,7 +49,7 @@ const Header = () => {
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex justify-between items-center">
               {/* Logo/Name Section with Profile Picture */}
-              <Link href="/home" className="flex items-center space-x-3 group">
+              <Link href="/" className="flex items-center space-x-3 group">
                 {/* Profile Picture Container */}
                 <div className="relative">
                   <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-purple-400/50 transition-all duration-300 group-hover:border-purple-400 group-hover:scale-110">
