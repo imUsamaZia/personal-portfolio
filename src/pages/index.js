@@ -38,6 +38,8 @@ import Link from "next/link";
 
 // Import from your data file
 import { skills, Projects, skill, skillCategories, services } from "@/lib/data";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 const HomePage = () => {
   const [currentSkill, setCurrentSkill] = useState(0);
@@ -106,6 +108,8 @@ const HomePage = () => {
   };
 
   return (
+    <>
+    <Header/>
     <div className="min-h-screen bg-white text-gray-900 overflow-hidden relative">
       {/* Progress Bar */}
       <motion.div
@@ -197,7 +201,8 @@ const HomePage = () => {
             >
               Transforming ideas into powerful full stack applications with{" "}
               <span className="text-orange-600 font-semibold">3 years</span> of
-              expertise in modern web technologies, from frontend to backend and deployment.
+              expertise in modern web technologies, from frontend to backend and
+              deployment.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -207,7 +212,10 @@ const HomePage = () => {
             >
               <Link href="/projects">
                 <motion.button
-                  whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(249, 115, 22, 0.3)" }}
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 20px 40px rgba(249, 115, 22, 0.3)",
+                  }}
                   whileTap={{ scale: 0.95 }}
                   className="group relative px-10 py-5 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-2xl font-bold text-lg shadow-2xl overflow-hidden"
                 >
@@ -313,14 +321,21 @@ const HomePage = () => {
                 <h3 className="text-2xl font-bold text-gray-900">Frontend</h3>
               </div>
               <div className="space-y-3">
-                {["React.js & Next.js", "TypeScript", "Tailwind CSS", "Redux & Zustand", "Responsive Design"].map(
-                  (tech, i) => (
-                    <div key={i} className="flex items-center gap-2 text-gray-700">
-                      <CheckCircle className="w-5 h-5 text-orange-500" />
-                      <span className="font-medium">{tech}</span>
-                    </div>
-                  )
-                )}
+                {[
+                  "React.js & Next.js",
+                  "TypeScript",
+                  "Tailwind CSS",
+                  "Redux & Zustand",
+                  "Responsive Design",
+                ].map((tech, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-2 text-gray-700"
+                  >
+                    <CheckCircle className="w-5 h-5 text-orange-500" />
+                    <span className="font-medium">{tech}</span>
+                  </div>
+                ))}
               </div>
             </motion.div>
 
@@ -339,14 +354,21 @@ const HomePage = () => {
                 <h3 className="text-2xl font-bold text-gray-900">Backend</h3>
               </div>
               <div className="space-y-3">
-                {["Node.js & Express", "RESTful APIs", "MongoDB & PostgreSQL", "Authentication", "Microservices"].map(
-                  (tech, i) => (
-                    <div key={i} className="flex items-center gap-2 text-gray-700">
-                      <CheckCircle className="w-5 h-5 text-red-500" />
-                      <span className="font-medium">{tech}</span>
-                    </div>
-                  )
-                )}
+                {[
+                  "Node.js & Express",
+                  "RESTful APIs",
+                  "MongoDB & PostgreSQL",
+                  "Authentication",
+                  "Microservices",
+                ].map((tech, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-2 text-gray-700"
+                  >
+                    <CheckCircle className="w-5 h-5 text-red-500" />
+                    <span className="font-medium">{tech}</span>
+                  </div>
+                ))}
               </div>
             </motion.div>
 
@@ -365,14 +387,21 @@ const HomePage = () => {
                 <h3 className="text-2xl font-bold text-gray-900">DevOps</h3>
               </div>
               <div className="space-y-3">
-                {["Docker", "AWS & Cloud", "CI/CD Pipelines", "Git & GitHub", "Linux Server"].map(
-                  (tech, i) => (
-                    <div key={i} className="flex items-center gap-2 text-gray-700">
-                      <CheckCircle className="w-5 h-5 text-orange-600" />
-                      <span className="font-medium">{tech}</span>
-                    </div>
-                  )
-                )}
+                {[
+                  "Docker",
+                  "AWS & Cloud",
+                  "CI/CD Pipelines",
+                  "Git & GitHub",
+                  "Linux Server",
+                ].map((tech, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-2 text-gray-700"
+                  >
+                    <CheckCircle className="w-5 h-5 text-orange-600" />
+                    <span className="font-medium">{tech}</span>
+                  </div>
+                ))}
               </div>
             </motion.div>
           </div>
@@ -402,7 +431,8 @@ const HomePage = () => {
               variants={fadeInUp}
               className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
             >
-              Passionate about creating exceptional digital experiences from frontend to backend
+              Passionate about creating exceptional digital experiences from
+              frontend to backend
             </motion.p>
           </motion.div>
 
@@ -458,9 +488,7 @@ const HomePage = () => {
                   transition={{ duration: 3, repeat: Infinity, delay: 1 }}
                 >
                   <Cloud className="w-8 h-8 text-orange-600" />
-                  <p className="text-sm font-bold mt-2 text-gray-900">
-                    DevOps
-                  </p>
+                  <p className="text-sm font-bold mt-2 text-gray-900">DevOps</p>
                 </motion.div>
               </div>
             </motion.div>
@@ -480,9 +508,9 @@ const HomePage = () => {
                 <span className="text-orange-600 font-semibold">
                   3 years of professional experience
                 </span>{" "}
-                in full stack development, I specialize in building complete web applications
-                from database design to user interface, ensuring seamless integration and
-                optimal performance at every layer.
+                in full stack development, I specialize in building complete web
+                applications from database design to user interface, ensuring
+                seamless integration and optimal performance at every layer.
               </p>
 
               {/* Education Timeline */}
@@ -576,7 +604,8 @@ const HomePage = () => {
               {[
                 {
                   title: "Full Stack Development",
-                  description: "Complete web applications from design to deployment",
+                  description:
+                    "Complete web applications from design to deployment",
                   icon: Layers,
                   color: "orange",
                 },
@@ -611,7 +640,9 @@ const HomePage = () => {
                 >
                   <div
                     className={`p-4 ${
-                      service.color === "orange" ? "bg-orange-500" : "bg-red-500"
+                      service.color === "orange"
+                        ? "bg-orange-500"
+                        : "bg-red-500"
                     } rounded-2xl w-fit mb-6`}
                   >
                     <service.icon className="w-10 h-10 text-white" />
@@ -667,7 +698,9 @@ const HomePage = () => {
                   <h3 className="text-xl font-bold mb-2 text-gray-900">
                     {skillItem.name}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-4">{skillItem.category}</p>
+                  <p className="text-sm text-gray-600 mb-4">
+                    {skillItem.category}
+                  </p>
                   <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
@@ -682,7 +715,10 @@ const HomePage = () => {
             </div>
 
             {/* Skill Categories */}
-            <motion.div variants={fadeInUp} className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <motion.div
+              variants={fadeInUp}
+              className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+            >
               {skillCategories.map((group, index) => (
                 <motion.div
                   key={index}
@@ -691,7 +727,7 @@ const HomePage = () => {
                 >
                   <group.icon className="w-12 h-12 text-orange-500 mb-6" />
                   <h3 className="text-2xl font-bold mb-6 text-gray-900">
-                    {group.category}
+                    {group.title}
                   </h3>
                   <div className="space-y-3">
                     {group.skills.map((skill, skillIndex) => (
@@ -700,7 +736,7 @@ const HomePage = () => {
                         className="flex items-center gap-3 text-gray-700"
                       >
                         <Star className="w-4 h-4 text-orange-400 fill-orange-400" />
-                        <span className="font-medium">{skill}</span>
+                        <span className="font-medium">{skill.name}</span>
                       </div>
                     ))}
                   </div>
@@ -751,8 +787,8 @@ const HomePage = () => {
                           project.status === "Live"
                             ? "bg-green-500 text-white"
                             : project.status === "In Progress"
-                            ? "bg-orange-500 text-white"
-                            : "bg-blue-500 text-white"
+                              ? "bg-orange-500 text-white"
+                              : "bg-blue-500 text-white"
                         }`}
                       >
                         {project.status}
@@ -819,8 +855,8 @@ const HomePage = () => {
                 </span>
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Ready to bring your full stack project to life? Let's collaborate
-                and create powerful web applications together.
+                Ready to bring your full stack project to life? Let's
+                collaborate and create powerful web applications together.
               </p>
             </motion.div>
 
@@ -939,7 +975,8 @@ const HomePage = () => {
             Ready for Your Next Full Stack Project?
           </h2>
           <p className="text-xl mb-10 opacity-95">
-            From frontend to backend, database to deployment - Let's build it together!
+            From frontend to backend, database to deployment - Let's build it
+            together!
           </p>
           <Link href="/contacts">
             <motion.button
@@ -953,6 +990,8 @@ const HomePage = () => {
         </motion.div>
       </section>
     </div>
+    <Footer />
+    </>
   );
 };
 
