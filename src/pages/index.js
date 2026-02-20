@@ -40,6 +40,7 @@ import Link from "next/link";
 import { skills, Projects, skill, skillCategories, services } from "@/lib/data";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Image from "next/image";
 
 const HomePage = () => {
   const [currentSkill, setCurrentSkill] = useState(0);
@@ -778,9 +779,13 @@ const HomePage = () => {
                 >
                   {/* Project Image */}
                   <div className="relative h-64 bg-gradient-to-br from-orange-100 to-red-100 overflow-hidden">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Layers className="w-24 h-24 text-orange-300 group-hover:scale-110 transition-transform duration-300" />
-                    </div>
+                    <Image
+                      src={project.image}
+                      alt={project.name}
+                      width={400}
+                      height={500}
+                      className="w-full h-full  object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
                     <div className="absolute top-4 right-4">
                       <span
                         className={`px-4 py-2 rounded-full text-sm font-bold shadow-lg ${
@@ -807,14 +812,29 @@ const HomePage = () => {
                     <p className="text-sm text-gray-500 mb-6 font-medium">
                       {project.tech}
                     </p>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="flex items-center gap-2 text-orange-600 font-bold group-hover:gap-4 transition-all"
-                    >
-                      View Project
-                      <ExternalLink className="w-5 h-5" />
-                    </motion.button>
+                    {project.liveUrl ? (
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-block">
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="flex items-center gap-2 text-orange-600 font-bold group-hover:gap-4 transition-all"
+                        >
+                          View Project
+                          <ExternalLink className="w-5 h-5" />
+                        </motion.button>
+                      </a>
+                    ) : (
+                      <Link href="/projects">
+                        <motion.a
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="flex items-center gap-2 text-orange-600 font-bold group-hover:gap-4 transition-all"
+                        >
+                          View Project
+                          <ExternalLink className="w-5 h-5" />
+                        </motion.a>
+                      </Link>
+                    )}
                   </div>
                 </motion.div>
               ))}
